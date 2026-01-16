@@ -38,7 +38,7 @@ Laravel学習として、読書ログ（本の記録）をCRUDで管理できる
 ## 学んだこと / 工夫した点
 - MVCの役割を意識して実装しました（取得はModel、処理はController、表示はView）。
 - バリデーションを使用し、安全なデータのみを保存するようにしました。
-- Route Model Bindingにより、URLのidから対象データを取得し、編集・削除できるようにしました。
+- Route Model Bindingを活用し、URLパラメータ（{book}）から自動的に対象のBookモデルを取得できるようにし、Controller側で findOrFail を書かずに編集・削除処理を実装しました。
 
 ## 苦労した点
 - HTMLフォームではPUT/PATCH/DELETEを送れないため、`@method` を使って擬似的にリクエストメソッドを切り替えて対応しました。
