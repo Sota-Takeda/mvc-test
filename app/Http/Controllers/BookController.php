@@ -22,7 +22,7 @@ class BookController extends Controller
 
     public function index()
     {
-    $books = Book::where('user_id', auth()->id())
+    $books = Book::where('user_id', auth()->id)
         ->orderBy('created_at', 'desc')
         ->get();
 
@@ -38,7 +38,7 @@ class BookController extends Controller
     {
         $validated = $request->validate($this->rules());
 
-        $validated['user_id'] = auth()->id();
+        $validated['user_id'] = auth()->id;
 
         Book::create($validated);
 
@@ -47,7 +47,7 @@ class BookController extends Controller
 
     private function myBookOrFail(int $id): Book
     {
-    return Book::where('user_id', auth()->id())
+    return Book::where('user_id', auth()->id)
         ->where('id', $id)
         ->firstOrFail();
     }
