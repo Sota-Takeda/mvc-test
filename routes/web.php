@@ -14,6 +14,10 @@ Route::get('/test', [TestController::class, 'index']);
 
 Route::resource('posts', PostController::class)->except(['show']);
 
+Route::resource('books', BookController::class)->parameters([
+    'books' => 'id'
+]);
+
 Route::middleware('auth')->group(function () {
     Route::resource('books', BookController::class);
 

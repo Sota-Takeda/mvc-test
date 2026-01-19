@@ -1,4 +1,3 @@
-cat > routes/auth.php <<'EOF'
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;

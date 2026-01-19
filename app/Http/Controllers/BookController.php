@@ -22,10 +22,11 @@ class BookController extends Controller
 
     public function index()
     {
-        // 新しい順に見せたいので created_at を降順にする
-        $books = Book::latest()->get();
+    $books = Book::where('user_id', auth()->id())
+        ->orderBy('created_at', 'desc')
+        ->get();
 
-        return view('books.index', compact('books'));
+    return view('books.index', compact('books'));
     }
 
     public function create()
@@ -37,32 +38,45 @@ class BookController extends Controller
     {
         $validated = $request->validate($this->rules());
 
+        $validated['user_id'] = auth()->id();
+
         Book::create($validated);
 
         return redirect()->route('books.index');
     }
 
-    public function show(Book $book)
+    private function myBookOrFail(int $id): Book
     {
+    return Book::where('user_id', auth()->id())
+        ->where('id', $id)
+        ->firstOrFail();
+    }
+
+    public function show(int $id)
+    {
+        $book = $this->myBookOrFail($id);
         return view('books.show', compact('book'));
     }
 
-    public function edit(Book $book)
+    public function edit(int $id)
     {
+        $book = $this->myBookOrFail($id);
         return view('books.edit', compact('book'));
     }
 
-    public function update(Request $request, Book $book)
+    public function update(Request $request, int $id)
     {
-        $validated = $request->validate($this->rules());
+        $book = $this->myBookOrFail($id);
 
+        $validated = $request->validate($this->rules());
         $book->update($validated);
 
         return redirect('/books');
     }
 
-    public function destroy(Book $book)
+    public function destroy(int $id)
     {
+        $book = $this->myBookOrFail($id);
         $book->delete();
 
         return redirect('/books');
