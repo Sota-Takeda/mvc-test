@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
@@ -22,7 +23,7 @@ class BookController extends Controller
 
     public function index()
     {
-    $books = Book::where('user_id', auth()->id())
+    $books = Book::where('user_id', Auth::id())
         ->orderBy('created_at', 'desc')
         ->get();
 
@@ -38,7 +39,7 @@ class BookController extends Controller
     {
         $validated = $request->validate($this->rules());
 
-        $validated['user_id'] = auth()->id();
+        $validated['user_id'] = Auth::id();
 
         Book::create($validated);
 
@@ -47,7 +48,7 @@ class BookController extends Controller
 
     private function myBookOrFail(int $id): Book
     {
-    return Book::where('user_id', auth()->id())
+    return Book::where('user_id', Auth::id())
         ->where('id', $id)
         ->firstOrFail();
     }
