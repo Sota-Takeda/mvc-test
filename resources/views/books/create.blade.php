@@ -31,9 +31,9 @@
         <div>
             <label>ステータス</label><br>
             <select name="status">
-                <option value="want">読みたい</option>
-                <option value="reading">読書中</option>
-                <option value="done">読了</option>
+                <option value="want" {{ old('status') === 'want' ? 'selected' : '' }}>読みたい</option>
+                <option value="reading" {{ old('status') === 'reading' ? 'selected' : '' }}>読書中</option>
+                <option value="done" {{ old('status') === 'done' ? 'selected' : '' }}>読了</option>
             </select>
         </div>
 
