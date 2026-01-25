@@ -88,4 +88,25 @@ class BookController extends Controller
 
         return redirect()->route('books.index');
     }
+
+    public function trashed()
+    {
+        $books = Book::onlyTrashed()
+            ->where('user_id', Auth::id())
+            ->orderBy('deleted_at', 'desc')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('books.trashed', compact('books'));
+    }
+
+    public function restore(int $id)
+    {
+        $book = Book::onlyTrashed()->findOrFail($id);
+        $this->authorize('update', $book); // 他人の復元を防ぐ
+
+        $book->restore();
+
+        return redirect()->route('books.trashed');
+    }
 }

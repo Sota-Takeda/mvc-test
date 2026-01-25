@@ -19,6 +19,8 @@
     </head>
     <body>
         <h1>読書ログ一覧</h1>
+        
+        <a href="{{ route('books.trashed') }}">削除済み一覧</a>
 
         <a href="/books/create">新規登録</a>
 
